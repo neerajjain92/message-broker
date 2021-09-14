@@ -44,8 +44,12 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public void publish(final String topicName, final Message message) {
         final Topic topic = topicRepository.getTopic(topicName);
+
+        // Add the message to the queue
         topic.addMessage(message);
         LOGGER.info("Message {}, published to topic {}", message.getMessage(), topicName);
+
+        // Fan-out message to all the interested subscribers
         new Thread(() -> topicRepository.getTopicHandler(topicName).publish()).start();
     }
 

@@ -13,36 +13,36 @@ import java.util.Map;
 
 public class TopicRepositoryInMemoryImpl implements TopicRepository {
 
-    private final Map<String, TopicHandler> topicProcessors;
+    private final Map<String, TopicHandler> topicHandlers;
     private Logger LOGGER = LoggerFactory.getLogger(TopicRepositoryInMemoryImpl.class);
 
     public TopicRepositoryInMemoryImpl() {
-        this.topicProcessors = new HashMap<>();
+        this.topicHandlers = new HashMap<>();
     }
 
     @Override
     public void createTopic(final TopicHandler topicHandler) {
         LOGGER.info("Topic {} saved successfully.", topicHandler.getTopic());
         final String topicName = topicHandler.getTopic().getName();
-        if(topicProcessors.containsKey(topicName)) {
+        if(topicHandlers.containsKey(topicName)) {
             throw new TopicAlreadyExistException("Topic ");
         }
-        topicProcessors.put(topicName, topicHandler);
+        topicHandlers.put(topicName, topicHandler);
     }
 
     @Override
     public Topic getTopic(final String topicName) throws TopicDoesNotExistException {
-        if(!topicProcessors.containsKey(topicName)) {
+        if(!topicHandlers.containsKey(topicName)) {
             throw new TopicDoesNotExistException(topicName);
         }
-        return topicProcessors.get(topicName).getTopic();
+        return topicHandlers.get(topicName).getTopic();
     }
 
     @Override
     public TopicHandler getTopicHandler(final String topicName) throws TopicDoesNotExistException {
-        if(!topicProcessors.containsKey(topicName)) {
+        if(!topicHandlers.containsKey(topicName)) {
             throw new TopicDoesNotExistException(topicName);
         }
-        return topicProcessors.get(topicName);
+        return topicHandlers.get(topicName);
     }
 }
