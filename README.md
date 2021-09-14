@@ -1,4 +1,5 @@
-# MESSAGE QUEUE
+# message-broker
+A Multithreaded Message Broker like Kafka, SQS, RabbitMQ
 
 We have to design a message queue supporting publisher-subscriber model, It should support following operations:
 
